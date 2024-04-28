@@ -2,6 +2,8 @@ package config
 
 import (
 	"os"
+
+	"github.com/Rashad-Muntar/go-api/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,5 +17,6 @@ func ConnectDB(){
 	if err != nil {
 		panic("failed to connect database")
 	}
+	db.AutoMigrate(&models.Customer{})
 	DB = db
 }
