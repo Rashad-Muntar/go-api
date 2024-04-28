@@ -17,6 +17,6 @@ func ConnectDB(){
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.AutoMigrate(&models.Customer{})
+	db.AutoMigrate(&models.Customer{}, &models.Transaction{})
 	DB = db
 }

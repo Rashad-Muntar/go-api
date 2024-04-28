@@ -14,5 +14,6 @@ func init() {
 func main() {
 	r := gin.New()
 	routes.CustomerRoute(r)
+	routes.TransactionRoute(r)
 	r.Run(":8080")
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Create(c *gin.Context, balance float32, customer_name string) (*models.Customer, error) {
+func CustomerCreate(c *gin.Context, balance float32, customer_name string) (*models.Customer, error) {
 	customer := models.Customer{Balance: balance, CustomerName: customer_name}
 	newCustomer := config.DB.Create(&customer)
 
@@ -16,7 +16,7 @@ func Create(c *gin.Context, balance float32, customer_name string) (*models.Cust
 	return &customer, nil
 }
 
-func Update(c *gin.Context, customerID uint, balance float32, customerName string) (*models.Customer, error) {
+func CustomerUpdate(c *gin.Context, customerID uint, balance float32, customerName string) (*models.Customer, error) {
 	var customer models.Customer
 	result := config.DB.First(&customer, customerID)
 	if result.Error != nil {
@@ -34,7 +34,7 @@ func Update(c *gin.Context, customerID uint, balance float32, customerName strin
 	return &customer, nil
 }
 
-func Delete(c *gin.Context, customerID uint) error {
+func CustomerDelete(c *gin.Context, customerID uint) error {
 	var customer models.Customer
 	result := config.DB.First(&customer, customerID)
 	if result.Error != nil {
@@ -48,4 +48,6 @@ func Delete(c *gin.Context, customerID uint) error {
 
 	return nil
 }
+
+
 

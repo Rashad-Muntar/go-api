@@ -22,7 +22,7 @@ func Create(c *gin.Context) {
 		})
 		return
 	}
-	user, err := services.Create(c, body.Balance, body.CustomerName)
+	user, err := services.CustomerCreate(c, body.Balance, body.CustomerName)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -45,7 +45,7 @@ func Update(c *gin.Context) {
 		return
 	}
 
-	customer, err := services.Update(c, body.CustomerID, body.Balance, body.CustomerName)
+	customer, err := services.CustomerUpdate(c, body.CustomerID, body.Balance, body.CustomerName)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -72,15 +72,13 @@ func Delete(c *gin.Context) {
 		})
 		return
 	}
-
-	err = services.Delete(c, uint(id))
+	err = services.CustomerDelete(c, uint(id))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to delete customer",
 		})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Customer deleted successfully",
 	})
