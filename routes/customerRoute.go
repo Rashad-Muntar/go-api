@@ -6,6 +6,7 @@ import (
 )
 
 func CustomerRoute(router *gin.Engine) {
-	router.POST("/customer", controllers.CreateCustomerController)
-	router.PUT("/customer", controllers.UpdateCustomerController)
+	router.POST("/customer", controllers.Create)
+	router.PUT("/customer", controllers.Update)
+	router.DELETE("/customer/:id", controllers.Delete)
 }
