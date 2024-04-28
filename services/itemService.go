@@ -15,3 +15,22 @@ func ItemCreate(c *gin.Context, price, cost float32, item_name string) (*models.
 	}
 	return &item, nil
 }
+
+func ItemUpdate(c *gin.Context, item_id uint, price, cost float32, item_name string) (*models.Item, error) {
+	var item models.Item
+	result := config.DB.First(&item, item_id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	item.Cost = cost
+	item.Price = price
+	item.ItemName = item_name
+
+	result = config.DB.Save(&item)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &item, nil
+}

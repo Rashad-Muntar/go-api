@@ -7,5 +7,5 @@ import (
 
 func ItemRoute(router *gin.Engine) {
 	router.POST("/item", controllers.ItemCreate)
-	router.PUT("/item", controllers.ItemCreate)
+	router.PUT("/item", controllers.ItemUpdate)
 }
