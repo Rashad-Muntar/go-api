@@ -34,3 +34,20 @@ func ItemUpdate(c *gin.Context, item_id uint, price, cost float32, item_name str
 
 	return &item, nil
 }
+
+func ItemDelete(c *gin.Context, itemID uint) error {
+	var item models.Item
+	result := config.DB.First(&item, itemID)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	result = config.DB.Delete(&item, itemID)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
+
+
