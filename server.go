@@ -15,5 +15,6 @@ func main() {
 	r := gin.New()
 	routes.CustomerRoute(r)
 	routes.TransactionRoute(r)
+	routes.ItemRoute(r)
 	r.Run(":8080")
 }

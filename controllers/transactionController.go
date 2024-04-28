@@ -15,6 +15,7 @@ func TransactionCreate(c *gin.Context) {
 		Amount     float32 `json:"amount" binding:"required"`
 		Qty        int32   `json:"qty" binding:"required"`
 		CustomerID uint    `json:"customer_id" binding:"required"`
+		ItemID uint `json:"item_id" binding:"required"`
 	}
 	fmt.Println(body)
 	if c.Bind(&body) != nil {
@@ -23,7 +24,7 @@ func TransactionCreate(c *gin.Context) {
 		})
 		return
 	}
-	user, err := services.TransactionCreate(c, body.CustomerID, body.Qty, body.Amount, body.Price)
+	user, err := services.TransactionCreate(c, body.CustomerID, body.Qty, body.Amount, body.Price, body.ItemID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -40,6 +41,7 @@ func TransactionUpdate(c *gin.Context) {
 		Price  float32 `json:"price"`
 		Amount float32 `json:"amount"`
 		Qty    int32   `json:"qty"`
+		ItemID uint `json:"item_id" binding:"required"`
 	}
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -48,7 +50,7 @@ func TransactionUpdate(c *gin.Context) {
 		return
 	}
 
-	transact, err := services.TransactionUpdate(c, body.TransactionID, body.Qty, body.Amount, body.Price)
+	transact, err := services.TransactionUpdate(c, body.TransactionID, body.Qty, body.Amount, body.Price, body.ItemID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
