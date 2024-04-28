@@ -7,4 +7,5 @@ import (
 
 func CustomerRoute(router *gin.Engine) {
 	router.POST("/customer", controllers.CreateCustomerController)
+	router.PUT("/customer", controllers.UpdateCustomerController)
 }

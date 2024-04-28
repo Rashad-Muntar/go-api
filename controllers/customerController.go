@@ -30,3 +30,27 @@ func CreateCustomerController(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, user)
 }
+
+func UpdateCustomerController(c *gin.Context) {
+	var body struct {
+		CustomerID   uint    `json:"customer_id" binding:"required"`
+		CustomerName string  `json:"customer_name"`
+		Balance      float32 `json:"balance"`
+	}
+	if err := c.BindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to parse request body",
+		})
+		return
+	}
+
+	customer, err := services.UpdateCustomerService(c, body.CustomerID, body.Balance, body.CustomerName)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, customer)
+}
