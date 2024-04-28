@@ -89,15 +89,18 @@ func TransactionDelete(c *gin.Context) {
 	})
 }
 
-
 func GetTransactionView(c *gin.Context) {
-    transactions, err := services.GetTransactions(c)
+    transactionID, _ := strconv.ParseUint(c.Query("transaction_id"), 10, 64)
+    customerName := c.Query("customer_name")
+    itemName := c.Query("item_name")
+
+    transactions, err := services.GetTransactions(uint(transactionID), customerName, itemName)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{
-            "error": "Failed to fetch transaction view",
+            "error": "Failed to fetch transactions",
         })
         return
     }
-    
+
     c.JSON(http.StatusOK, transactions)
 }

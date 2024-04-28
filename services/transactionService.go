@@ -52,20 +52,32 @@ func TransactionDelete(c *gin.Context, transactionID uint) error {
 	return nil
 }
 
-func GetTransactions(c *gin.Context) ([]models.TransactionView, error) {
-	var transactions []models.TransactionView
+func GetTransactions(transactionID uint, customerName, itemName string) ([]models.TransactionView, error) {
+    var transactions []models.TransactionView
 
-	result := config.DB.Table("transactions").
+    query := config.DB.Table("transactions").
         Select("transactions.id as transaction_id, transactions.customer_id, customers.customer_name, items.item_name, transactions.qty, transactions.price, transactions.amount").
         Joins("INNER JOIN customers ON transactions.customer_id = customers.id").
-        Joins("INNER JOIN items ON transactions.item_id = items.id").
-        Scan(&transactions)
+        Joins("INNER JOIN items ON transactions.item_id = items.id")
+
+    if transactionID != 0 {
+        query = query.Where("transactions.id = ?", transactionID)
+    }
+    if customerName != "" {
+        query = query.Where("customers.customer_name = ?", customerName)
+    }
+    if itemName != "" {
+        query = query.Where("items.item_name = ?", itemName)
+    }
+
+    result := query.Scan(&transactions)
     if result.Error != nil {
         return nil, result.Error
     }
 
     return transactions, nil
 }
+
 
 
 
