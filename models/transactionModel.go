@@ -13,3 +13,14 @@ type Transaction struct {
 	ItemID     uint
     Item       Item   `gorm:"foreignkey:ItemID"`
 }
+
+type TransactionView struct {
+	gorm.Model
+    TransactionID uint
+    CustomerID    uint
+    CustomerName  string
+    ItemName      string
+    Qty           int32
+    Price         float32
+    Amount        float32
+}

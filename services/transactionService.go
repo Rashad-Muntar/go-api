@@ -52,6 +52,21 @@ func TransactionDelete(c *gin.Context, transactionID uint) error {
 	return nil
 }
 
+func GetTransactions(c *gin.Context) ([]models.TransactionView, error) {
+	var transactions []models.TransactionView
+
+	result := config.DB.Table("transactions").
+        Select("transactions.id as transaction_id, transactions.customer_id, customers.customer_name, items.item_name, transactions.qty, transactions.price, transactions.amount").
+        Joins("INNER JOIN customers ON transactions.customer_id = customers.id").
+        Joins("INNER JOIN items ON transactions.item_id = items.id").
+        Scan(&transactions)
+    if result.Error != nil {
+        return nil, result.Error
+    }
+
+    return transactions, nil
+}
+
 
 
 

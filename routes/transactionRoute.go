@@ -9,4 +9,5 @@ func TransactionRoute(router *gin.Engine) {
 	router.POST("/transaction", controllers.TransactionCreate)
 	router.PUT("/transaction", controllers.TransactionUpdate)
 	router.DELETE("/transaction/:id", controllers.TransactionDelete)
+	router.GET("/transactions", controllers.GetTransactionView)
 }

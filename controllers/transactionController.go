@@ -24,14 +24,14 @@ func TransactionCreate(c *gin.Context) {
 		})
 		return
 	}
-	user, err := services.TransactionCreate(c, body.CustomerID, body.Qty, body.Amount, body.Price, body.ItemID)
+	transact, err := services.TransactionCreate(c, body.CustomerID, body.Qty, body.Amount, body.Price, body.ItemID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, transact)
 }
 
 
@@ -87,4 +87,17 @@ func TransactionDelete(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Transaction deleted successfully",
 	})
+}
+
+
+func GetTransactionView(c *gin.Context) {
+    transactions, err := services.GetTransactions(c)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "error": "Failed to fetch transaction view",
+        })
+        return
+    }
+    
+    c.JSON(http.StatusOK, transactions)
 }
